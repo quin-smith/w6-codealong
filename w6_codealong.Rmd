@@ -1,0 +1,80 @@
+---
+title: "Week 6 Codealong"
+author: "Quin Smith"
+date: "11/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(palmerpenguins)
+library(broom)
+library(ggpubr)
+```
+
+```{r}
+set.seed(1414)
+gp_1 <- sample.int(20, size = 15, replace = TRUE)
+
+set.seed(1424)
+gp_2 <- sample.int(30, size = 15, replace = TRUE)
+
+hist(gp_1)
+hist(gp_2)
+```
+
+```{r}
+my_mwu <- wilcox.test(gp_1, gp_2)
+```
+
+```{r}
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+```
+
+```{r}
+penguin_lm <- lm(body_mass_g ~ flipper_length_mm, data = penguins)
+summary(penguin_lm)
+```
+
+```{r}
+penguin_lm_tidy <- broom::tidy(penguin_lm)
+
+penguin_int <- penguin_lm_tidy$estimate[1]
+penguin_int
+
+penguin_coeff <- penguin_lm_tidy$estimate[2]
+penguin_coeff
+```
+
+```{r}
+penguin_lm_out <- broom::glance(penguin_lm)
+penguin_lm_out
+```
+
+```{r}
+plot(penguin_lm)
+```
+
+```{r}
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm",
+              color = "red",
+              size = 0.5,
+              fill = "grey",
+              alpha = 0.5) +
+  theme_light() +
+  ggpubr::stat_regline_equation(label.x = 180, label.y = 5700)
+```
+
+```{r}
+penguins_cor <- cor.test(penguins$flipper_length_mm, penguins$body_mass_g)
+penguins_cor
+```
+
+
+
+
