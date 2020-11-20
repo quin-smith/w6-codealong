@@ -74,7 +74,7 @@ ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 penguins_cor <- cor.test(penguins$flipper_length_mm, penguins$body_mass_g)
 penguins_cor
 ```
-
+test
 
 
 
